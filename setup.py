@@ -6,6 +6,7 @@ setup(
   description='FAIR4AI Client Package',
   packages=find_packages(),
   install_requires=[
-    'skl2onnx'
+    'skl2onnx',
+    'requests'
   ]
 )
