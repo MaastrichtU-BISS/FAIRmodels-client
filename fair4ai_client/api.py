@@ -19,38 +19,43 @@ class APIService:
         response = requests.get(url)
         return response.json()
     
-    def update_model(self, model_id, data):
+    def update_model(self, model_id, onnx_model: str, update_type: str, update_description: str):
         url = f"{self.base_url}/model/{model_id}"
-        response = requests.patch(url, json=data)
+        response = requests.patch(url, json={
+            onnx_model: onnx_model,
+            update_type: update_type,
+            update_description: update_description
+        })
         return response.json()
     
     def delete_model(self, model_id):
         url = f"{self.base_url}/model/{model_id}"
         response = requests.delete(url)
         return response.json()
-    
-api = APIService()
 
-print("Print Existing:")
+if __name__ == '__main__':
+    api = APIService()
 
-models = api.list_models()
-for (model_id, model) in models.items():
-    print(model_id, ':', model['name'])
+    print("Print Existing:")
 
-print("Print Create:")
+    models = api.list_models()
+    for (model_id, model) in models.items():
+        print(model_id, ':', model['name'])
 
-new_model = {"name": "new model!"}
-create = api.create_model(new_model)
-create_id = create['id']
+    print("Print Create:")
 
-print("new id:", create_id)
+    new_model = {"name": "new model!"}
+    create = api.create_model(new_model)
+    create_id = create['id']
 
-print("Print Read New")
+    print("new id:", create_id)
 
-read_new = api.read_model(create_id)
+    print("Print Read New")
 
-print("Contents:", read_new)
+    read_new = api.read_model(create_id)
 
-# update = api.update_model(create_id, {"key": "value"})
+    print("Contents:", read_new)
 
-# print(update)
+    # update = api.update_model(create_id, {"key": "value"})
+
+    # print(update)
