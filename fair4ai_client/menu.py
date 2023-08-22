@@ -1,6 +1,6 @@
 import re
 from typing import List
-from api import APIService
+from .api import APIService
 
 def read_choice_input(prefix="# ", valid: List[str] = [], case_upper=True):
     value = input(prefix)

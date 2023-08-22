@@ -3,7 +3,7 @@ from typing import Dict, Any, List
 from sklearn.base import BaseEstimator
 from skl2onnx import convert_sklearn
 
-from menu import Menu
+from .menu import Menu
 
 def wrap(model: BaseEstimator, sk2onnx_args: Dict[str, Any] = {}):
     onnx_obj = convert_sklearn(model, **sk2onnx_args)
