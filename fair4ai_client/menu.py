@@ -73,19 +73,19 @@ class Menu:
 
         if len(model_ids) > 0:
             print()
-            print("Available models:")
+            print("Remote models:")
             print()
 
             for (i, id) in idmap.items():
-                print(f"- {i}) {models[id]['name']}")
+                print(f"  {i}) {models[id]['name']}")
         else:
-            print("\n No models available yet.")
+            print("\n No models remotely available yet.")
 
         print()
-        print("- N) Create new model")
-        print("- A) Abort")
+        print("  N) Create new model")
+        print("  A) Abort")
         print()
-        print("Is this model present in this list, or is this a new model?")
+        print("Is this model present in this list, or is this a new model (N)?")
         print()
 
         choice = read_choice_input(valid=[*range(1, len(idmap)+1), 'N', 'A'])
@@ -97,4 +97,3 @@ class Menu:
             return
         else:
             self.model_update(idmap[int(choice)], onnx_model)
-
