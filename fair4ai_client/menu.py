@@ -2,10 +2,12 @@ import re
 from typing import List
 from api import APIService
 
-def read_choice_input(prefix="# ", valid: List[str] = []):
+def read_choice_input(prefix="# ", valid: List[str] = [], case_upper=True):
     value = input(prefix)
-    while not value.upper() in map(str, valid):
+    if case_upper: value = value.upper()
+    while not value in map(str, valid):
         value = input(prefix)
+        if case_upper: value = value.upper()
     return value
 
 def read_pattern_input(prefix="> ", pattern: re.Pattern = r'.+', flags: re.RegexFlag = 0):
@@ -31,7 +33,7 @@ class Menu:
             "name": in_name,
             "version": "0.1.0",
             "description": in_desc,
-            "onnx": onnx_model,
+            "onnx_model": onnx_model,
         })
         print(f"Model uploaded with ID '{ model_resp['id'] }'")
 
@@ -54,8 +56,8 @@ class Menu:
         in_update_description = read_pattern_input()
 
         print("\nUpdating model...")
-        self.api.update_model(model_id, onnx_model, update_type, in_update_description)
-        print(f"Model with ID '{ model_id }' updated.")
+        response = self.api.update_model(model_id, onnx_model, update_type, in_update_description)
+        print(f"Model with ID '{ model_id }' updated. New version: {response['version']}")
 
     def model_entrypoint(self, onnx_model):
 

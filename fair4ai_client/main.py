@@ -13,7 +13,7 @@ def wrap(model: BaseEstimator, sk2onnx_args: Dict[str, Any] = {}):
     menu.model_entrypoint(onnx_raw)
 
 menu = Menu()
-menu.model_entrypoint("example-model-representation-1")
+menu.model_entrypoint("example-model-representation-2")
 
 if __name__ == '__main__':
     print("This file should only be used as a package")
