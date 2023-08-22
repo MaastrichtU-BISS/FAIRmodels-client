@@ -1,3 +1,4 @@
+import sys
 import re
 from typing import Dict, Any, List
 from sklearn.base import BaseEstimator
@@ -7,13 +8,21 @@ from .menu import Menu
 
 def wrap(model: BaseEstimator, sk2onnx_args: Dict[str, Any] = {}):
     onnx_obj = convert_sklearn(model, **sk2onnx_args)
-    onnx_raw = onnx_obj.SerializeToString()
-    
-    menu = Menu()
-    menu.model_entrypoint(onnx_raw)
+    onnx_raw = onnx_obj.SerializeToString().hex()
 
-menu = Menu()
-menu.model_entrypoint("example-model-representation-2")
+    print("Welcome to FAIR4AI Model Wrapper")
+    print()
+    print("Basic Model Information:\n")
+    print("- Node types:")
+    for node in onnx_obj.graph.node:
+        print(f"  - {node.name}")
+    
+    try:
+        menu = Menu()
+        menu.model_entrypoint(onnx_raw)
+    except KeyboardInterrupt:
+        print("Quiting...")
+        sys.exit()
 
 if __name__ == '__main__':
-    print("This file should only be used as a package")
+    print("This file should be imported as a package")
