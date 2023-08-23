@@ -52,7 +52,7 @@ class Menu:
         if update_type is None:
             raise Exception(f"Invalid version-type '{in_update_type}'")
         
-        print("\n- Description for this update:")
+        print(f"\n- Description for this {update_type}-update:")
         in_update_description = read_pattern_input()
 
         print("\nUpdating model...")
@@ -72,14 +72,13 @@ class Menu:
         idmap = {i + 1: model_ids[i] for i in range(len(model_ids))}
 
         if len(model_ids) > 0:
-            print()
             print("Remote models:")
             print()
 
             for (i, id) in idmap.items():
                 print(f"  {i}) {models[id]['name']}")
         else:
-            print("\n No models remotely available yet.")
+            print("No models remotely available yet.")
 
         print()
         print("  N) Create new model")
