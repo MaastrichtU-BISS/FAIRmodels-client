@@ -10,7 +10,15 @@ clr = RandomForestClassifier()
 clr.fit(X_train, y_train)
 
 # wrap the model
+
+# --- these lines ensure that the live code at the root is used 
+# --- above the installed package
+import sys
+sys.path.insert(0, '.')
+# ---
+
 import fair4ai_client.main as f4a
+
 from skl2onnx.common.data_types import FloatTensorType
 
 f4a.wrap(clr, {'initial_types': [('float_input', FloatTensorType([None, 4]))]})
