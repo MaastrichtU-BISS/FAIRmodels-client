@@ -7,6 +7,7 @@ setup(
   packages=find_packages(),
   install_requires=[
     'skl2onnx==1.16.0',
-    'requests==2.31.0'
+    'requests==2.31.0',
+    'keyring==24.3.0'
   ]
 )
