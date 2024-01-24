@@ -13,10 +13,7 @@ def wrap(model: BaseEstimator, sk2onnx_args: Dict[str, Any] = {}):
 
     print("Welcome to FAIR4AI Model Wrapper")
     print()
-    print("Basic Model Information:\n")
-    print("- Node types:")
-    for node in onnx_obj.graph.node:
-        print(f"  - {node.name}")
+    print_model_information(onnx_obj)
     print()
     
     try:
@@ -28,6 +25,26 @@ def wrap(model: BaseEstimator, sk2onnx_args: Dict[str, Any] = {}):
     except exceptions.ConnectionError:
         print("Failed connecting to the server. Exiting...")
         sys.exit()
+
+def print_model_information(onnx_obj):
+    print("Basic Model Information:\n")
+    if onnx_obj.ir_version:
+        print("> IR version:", onnx_obj.ir_version)
+    if onnx_obj.producer_name:
+        if onnx_obj.producer_version:
+            print("> Producer:", onnx_obj.producer_name, f"(version {onnx_obj.producer_version})")
+        else:
+            print("> Producer:", onnx_obj.producer_name)
+    if onnx_obj.doc_string:
+        print("> Documentation string:", onnx_obj.doc_string)
+    if onnx_obj.metadata_props:
+        print("> Model metadata:", onnx_obj.doc_string)
+        for metadata in onnx_obj.metadata_props:
+            print("   - ", metadata)
+    if onnx_obj.graph:
+        print("> Graph node types:")
+        for node in onnx_obj.graph.node:
+            print(f"   - {node.name} -> {node.doc_string}")
 
 if __name__ == '__main__':
     print("This file should be imported as a package")
