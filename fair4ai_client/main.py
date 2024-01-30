@@ -7,6 +7,24 @@ from requests import exceptions
 
 from .menu import Menu
 
+def wrap_store(model: BaseEstimator, filename: str, sk2onnx_args: Dict[str, Any] = {}):
+    onnx_obj = convert_sklearn(model, **sk2onnx_args)
+    onnx_raw = onnx_obj.SerializeToString().hex()
+
+    # if filename[-5] != '.onnx':
+    filename += '.onnx'
+
+    print("Welcome to FAIR4AI Model Wrapper")
+    print()
+    print_model_information(onnx_obj)
+    print()
+    try:
+        with open(filename, 'w') as f:
+            f.write(onnx_raw)
+        print("File written to", filename)
+    except:
+        print("Can't write file")
+
 def wrap(model: BaseEstimator, sk2onnx_args: Dict[str, Any] = {}):
     onnx_obj = convert_sklearn(model, **sk2onnx_args)
     onnx_raw = onnx_obj.SerializeToString().hex()
@@ -44,7 +62,7 @@ def print_model_information(onnx_obj):
     if onnx_obj.graph:
         print("> Graph node types:")
         for node in onnx_obj.graph.node:
-            print(f"   - {node.name} -> {node.doc_string}")
+            print(f"   - {node.name}")
 
 if __name__ == '__main__':
     print("This file should be imported as a package")
