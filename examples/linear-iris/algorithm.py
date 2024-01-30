@@ -23,7 +23,7 @@ from skl2onnx.common.data_types import FloatTensorType
 
 # 1. directly upload the onnx representation to the server, 
 #    but have cli inputs (doesnt work in notebooks, but is more convenient)
-# f4a.wrap(clr, 'upload', {'initial_types': [('float_input', FloatTensorType([None, 4]))]})
+# f4a.wrap(clr, {'initial_types': [('float_input', FloatTensorType([None, 4]))]})
 
 # 2. store the onnx representation to local disk, to upload it to the 
 #    
