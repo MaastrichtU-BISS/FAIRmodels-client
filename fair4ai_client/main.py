@@ -4,12 +4,13 @@ from typing import Dict, Any, List
 from sklearn.base import BaseEstimator
 from skl2onnx import convert_sklearn
 from requests import exceptions
+import json
 
 from .menu import Menu
 
 def wrap_store(model: BaseEstimator, filename: str, sk2onnx_args: Dict[str, Any] = {}):
     onnx_obj = convert_sklearn(model, **sk2onnx_args)
-    onnx_raw = onnx_obj.SerializeToString().hex()
+    onnx_raw = onnx_obj.SerializeToString()
 
     # if filename[-5] != '.onnx':
     filename += '.onnx'
@@ -19,7 +20,7 @@ def wrap_store(model: BaseEstimator, filename: str, sk2onnx_args: Dict[str, Any]
     print_model_information(onnx_obj)
     print()
     try:
-        with open(filename, 'w') as f:
+        with open(filename, 'wb') as f:
             f.write(onnx_raw)
         print("File written to", filename)
     except:
@@ -46,6 +47,7 @@ def wrap(model: BaseEstimator, sk2onnx_args: Dict[str, Any] = {}):
 
 def print_model_information(onnx_obj):
     print("Basic Model Information:\n")
+    
     if onnx_obj.ir_version:
         print("> IR version:", onnx_obj.ir_version)
     if onnx_obj.producer_name:
