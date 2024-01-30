@@ -21,4 +21,10 @@ import fair4ai_client.main as f4a
 
 from skl2onnx.common.data_types import FloatTensorType
 
-f4a.wrap(clr, {'initial_types': [('float_input', FloatTensorType([None, 4]))]})
+# 1. directly upload the onnx representation to the server, 
+#    but have cli inputs (doesnt work in notebooks, but is more convenient)
+# f4a.wrap(clr, 'upload', {'initial_types': [('float_input', FloatTensorType([None, 4]))]})
+
+# 2. store the onnx representation to local disk, to upload it to the 
+#    
+f4a.wrap_store(clr, 'output/iris_model', {'initial_types': [('float_input', FloatTensorType([None, 4]))]})
